@@ -1,6 +1,5 @@
-// Função para buscar os ingredientes e popular o select
 async function fetchIngredients() {
-    const url = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?i=list';
+    const url = "https://www.thecocktaildb.com/api/json/v1/1/list.php?i=list";
     try {
         const response = await fetch(url);
         const data = await response.json();
@@ -23,7 +22,7 @@ function populateIngredientSelect(ingredients) {
 
 // Função para buscar drinks baseados no ingrediente selecionado
 async function fetchDrinksByIngredient(ingredient) {
-    const url = https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${ingredient};
+    const url = "https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${ingredient}";
     try {
         const response = await fetch(url);
         const data = await response.json();
@@ -35,7 +34,7 @@ async function fetchDrinksByIngredient(ingredient) {
 
 // Função para buscar 10 drinks de exemplo
 async function fetchRandomDrinks() {
-    const url = 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Alcoholic';
+    const url = "https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Alcoholic";
     try {
         const response = await fetch(url);
         const data = await response.json();
@@ -68,7 +67,7 @@ function displayDrinks(drinks) {
 }
 // Função para buscar detalhes do drink ao clicar
 async function fetchDrinkDetails(drinkId) {
-    const url = https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${drinkId};
+    const url = "https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${drinkId}";
     try {
         const response = await fetch(url);
         const data = await response.json();
