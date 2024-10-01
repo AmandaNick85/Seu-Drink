@@ -14,8 +14,8 @@ function populateIngredientSelect(ingredients) {
     const select = document.getElementById('ingredient-select');
     ingredients.forEach(ingredient => {
         const option = document.createElement('option');
-        option.value = ingredient.strIngredient; // Corrigido para strIngredient
-        option.textContent = ingredient.strIngredient; // Corrigido para strIngredient
+        option.value = ingredient.strIngredient1; // Corrigido para strIngredient
+        option.textContent = ingredient.strIngredient1; // Corrigido para strIngredient
         select.appendChild(option);
     });
 }
