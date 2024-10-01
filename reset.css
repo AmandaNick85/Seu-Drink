@@ -1,0 +1,7 @@
+*{
+    /* Resetando estilos padrão para todos os elementos */
+ text-decoration: none; /* Remove sublinhado */
+ margin: 0; /* Remove margens padrão */
+ padding: 0; /* Remove preenchimentos padrão */
+ list-style: none; /* Remove marcadores de lista */
+};

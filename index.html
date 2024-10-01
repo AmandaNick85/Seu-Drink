@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+</html><html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu de Drinks</title>
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Filtro de Drinks por Ingrediente -->
+    <section class="conteudo">
+        <h1 id="titulo">Qual o seu Drink Favorito?</h1>
+        <div class="filter-container">
+            <label for="ingredient-select">Selecione um Ingrediente:</label>
+            <select id="ingredient-select">
+                <option value="">Escolha um ingrediente...</option>
+            </select>
+            <button id="filter-button">Buscar</button>
+        </div>
+
+        <!-- Seção de Drinks -->
+        <section id="drinks-section">
+            <h2>Drinks Disponíveis</h2>
+            <div id="drink-container"></div>
+        </section>
+
+        <!-- Drinks Favoritos -->
+        <section id="drinks">
+            <h1>Drinks Favoritos</h1>
+            <div id="favoriteContainer"></div> <!-- Container para os drinks favoritos -->
+        </section>
+    </section>
+
+    <!-- Modal para exibir detalhes do drink -->
+    <div id="drinkModal">
+        <div class="modal-content">
+            <span id="closeModal">&times;</span>
+            <div id="drinkDetails"></div>
+        </div>
+    </div>
+
+    <!-- JS -->
+    <script src="script.js"></script>
+</body>
+</html>
