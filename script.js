@@ -23,7 +23,7 @@ function populateIngredientSelect(ingredients) {
 
 // Função para buscar drinks baseados no ingrediente selecionado
 async function fetchDrinksByIngredient(ingredient) {
-    const url = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${ingredient}`;
+    const url = https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${ingredient};
     try {
         const response = await fetch(url);
         const data = await response.json();
@@ -39,7 +39,7 @@ async function fetchRandomDrinks() {
     try {
         const response = await fetch(url);
         const data = await response.json();
-        const exampleDrinks = data.drinks.slice(0, 10);
+         const exampleDrinks = data.drinks.slice(0, 10);
         displayDrinks(exampleDrinks);
     } catch (error) {
         console.error('Erro ao buscar os drinks de exemplo:', error);
@@ -66,10 +66,9 @@ function displayDrinks(drinks) {
         container.appendChild(drinkCard);
     });
 }
-
 // Função para buscar detalhes do drink ao clicar
 async function fetchDrinkDetails(drinkId) {
-    const url = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${drinkId}`;
+    const url = https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${drinkId};
     try {
         const response = await fetch(url);
         const data = await response.json();
@@ -84,7 +83,7 @@ function showDrinkModal(drink) {
     const modal = document.getElementById('drinkModal');
     const modalContent = document.getElementById('drinkDetails');
 
-    const isFavorite = getFavorites().find(fav => fav.idDrink === drink.idDrink);
+    const isFavorite = getFavorites().some(fav => fav.idDrink === drink.idDrink);
 
     modalContent.innerHTML = `
       <h2>${drink.strDrink}</h2>
@@ -94,30 +93,40 @@ function showDrinkModal(drink) {
       <p><strong>Instruções:</strong> ${drink.strInstructions}</p>
       <h3>Ingredientes:</h3>
       <ul>${getIngredients(drink)}</ul>
-      <button onclick="toggleFavorite(${JSON.stringify(drink)})">${isFavorite ? 'Remover dos Favoritos' : 'Favoritar'}</button>
+      <button id="favoriteButton">${isFavorite ? 'Remover dos Favoritos' : 'Favoritar'}</button>
     `;
 
     modal.style.display = 'block';
 
+    // Evento de fechar o modal
     document.getElementById('closeModal').onclick = function () {
         modal.style.display = 'none';
-    }
-
-    window.onclick = function (event) {
+        modalContent.innerHTML = ''; // Limpa o conteúdo ao fechar
+    };
+ window.onclick = function (event) {
         if (event.target === modal) {
             modal.style.display = 'none';
+            modalContent.innerHTML = ''; // Limpa o conteúdo ao fechar
         }
-    }
+    };
+
+    // Corrigindo o evento do botão para adicionar/remover dos favoritos
+    const favoriteButton = document.getElementById('favoriteButton');
+    favoriteButton.onclick = function() {
+        toggleFavorite(drink);
+        // Atualiza o texto do botão após adicionar/remover dos favoritos
+        favoriteButton.textContent = getFavorites().some(fav => fav.idDrink === drink.idDrink) ? 'Remover dos Favoritos' : 'Favoritar';
+    };
 }
 
 // Função auxiliar para pegar os ingredientes e medidas do drink
 function getIngredients(drink) {
     let ingredients = '';
     for (let i = 1; i <= 15; i++) {
-        const ingredient = drink[`strIngredient${i}`];
-        const measure = drink[`strMeasure${i}`];
+        const ingredient = drink[strIngredient${i}];
+        const measure = drink[strMeasure${i}];
         if (ingredient) {
-            ingredients += `<li>${measure ? measure : ''} ${ingredient}</li>`;
+            ingredients += <li>${measure ? measure : ''} ${ingredient}</li>;
         }
     }
     return ingredients;
@@ -130,22 +139,16 @@ document.getElementById('filter-button').addEventListener('click', () => {
         fetchDrinksByIngredient(selectedIngredient);
     }
 });
-
-// Selecionar o container onde os drinks favoritos serão exibidos
-const favoriteContainer = document.getElementById("favoriteContainer");
-
 // Função para salvar um drink nos favoritos
 function toggleFavorite(drink) {
     let favorites = getFavorites(); // Recupera os favoritos existentes
 
-    const isFavorite = favorites.find(fav => fav.idDrink === drink.idDrink);
+    const isFavorite = favorites.some(fav => fav.idDrink === drink.idDrink);
 
     if (isFavorite) {
-        // Se o drink já é um favorito, remove-o
         favorites = favorites.filter(fav => fav.idDrink !== drink.idDrink);
         alert("Drink removido dos favoritos!");
     } else {
-        // Se não é favorito, adiciona-o
         if (favorites.length < 10) { // Limite de 10 favoritos
             favorites.push(drink);
             alert("Drink adicionado aos favoritos!");
@@ -154,32 +157,28 @@ function toggleFavorite(drink) {
         }
     }
 
-    // Armazena a lista atualizada de favoritos no localStorage
     localStorage.setItem("favoriteDrinks", JSON.stringify(favorites));
 
-    // Atualiza a exibição dos drinks favoritos
     renderFavoriteDrinks();
 }
 
 // Função para recuperar os favoritos do localStorage
 function getFavorites() {
-    const favorites = localStorage.getItem("favoriteDrinks"); // Obtém os dados do localStorage
-    return favorites ? JSON.parse(favorites) : []; // Converte para objeto, ou retorna um array vazio
+    const favorites = localStorage.getItem("favoriteDrinks");
+    return favorites ? JSON.parse(favorites) : [];
 }
 
-// Função para renderizar os drinks favoritos no menu de favoritos
+// Função para renderizar os drinks favoritos
 function renderFavoriteDrinks() {
-    const favorites = getFavorites(); // Recupera os favoritos
+    const favorites = getFavorites();
     const favoriteContainer = document.getElementById("favoriteContainer");
-    favoriteContainer.innerHTML = ''; // Limpa o container
+    favoriteContainer.innerHTML = '';
 
-    // Se não há favoritos, exibe uma mensagem
     if (favorites.length === 0) {
         favoriteContainer.innerHTML = '<p>Nenhum drink favoritado.</p>';
         return;
     }
 
-    // Para cada drink favorito, cria um card e adiciona ao container
     favorites.forEach(drink => {
         const drinkCard = document.createElement("div");
         drinkCard.classList.add("drink-card");
@@ -191,17 +190,20 @@ function renderFavoriteDrinks() {
         favoriteContainer.appendChild(drinkCard);
     });
 }
+
 // Função para remover um drink dos favoritos
 function removeFromFavorites(drinkId) {
-    let favorites = getFavorites(); // Recupera os favoritos
-    favorites = favorites.filter(fav => fav.idDrink !== drinkId); // Filtra o drink a ser removido
-    localStorage.setItem("favoriteDrinks", JSON.stringify(favorites)); // Atualiza o localStorage
-    renderFavoriteDrinks(); // Atualiza a exibição dos favoritos
+    let favorites = getFavorites();
+    favorites = favorites.filter(fav => fav.idDrink !== drinkId);
+    localStorage.setItem("favoriteDrinks", JSON.stringify(favorites));
+    renderFavoriteDrinks();
 }
 
-// Chama a função para renderizar os drinks favoritos ao carregar a página
+// Chama a função para renderizar os favoritos ao carregar a página
 renderFavoriteDrinks();
 
-// Chamada das funções ao carregar a página
-fetchIngredients();
-fetchRandomDrinks(); // Mostra os 10 drinks de exemplo ao carregar a página
+// Funções chamadas ao carregar a página
+document.addEventListener('DOMContentLoaded', () => {
+    fetchIngredients();
+    fetchRandomDrinks();
+});
