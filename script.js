@@ -3,7 +3,7 @@ async function fetchIngredients() {
     try {
         const response = await fetch(url);
         const data = await response.json();
-        populateIngredientSelect(data.ingredients); // Corrigido para o nome correto
+        populateIngredientSelect(data.drinks); // Corrigido para acessar "drinks"
     } catch (error) {
         console.error('Erro ao buscar os ingredientes:', error);
     }
@@ -22,7 +22,7 @@ function populateIngredientSelect(ingredients) {
 
 // Função para buscar drinks baseados no ingrediente selecionado
 async function fetchDrinksByIngredient(ingredient) {
-    const url = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${ingredient}`; // Corrigido para crase
+    const url = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${ingredient}`;
     try {
         const response = await fetch(url);
         const data = await response.json();
@@ -38,7 +38,7 @@ async function fetchDrinksByIngredient(ingredient) {
 
 // Função para buscar 10 drinks de exemplo
 async function fetchRandomDrinks() {
-    const url = "https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Alcoholic";
+    const url = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Alcoholic`;
     try {
         const response = await fetch(url);
         const data = await response.json();
