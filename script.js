@@ -3,7 +3,7 @@ async function fetchIngredients() {
     try {
         const response = await fetch(url);
         const data = await response.json();
-        populateIngredientSelect(data.drinks);
+        populateIngredientSelect(data.ingredients); // Corrigido para o nome correto
     } catch (error) {
         console.error('Erro ao buscar os ingredientes:', error);
     }
@@ -14,19 +14,23 @@ function populateIngredientSelect(ingredients) {
     const select = document.getElementById('ingredient-select');
     ingredients.forEach(ingredient => {
         const option = document.createElement('option');
-        option.value = ingredient.strIngredient1;
-        option.textContent = ingredient.strIngredient1;
+        option.value = ingredient.strIngredient; // Corrigido para strIngredient
+        option.textContent = ingredient.strIngredient; // Corrigido para strIngredient
         select.appendChild(option);
     });
 }
 
 // Função para buscar drinks baseados no ingrediente selecionado
 async function fetchDrinksByIngredient(ingredient) {
-    const url = "https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${ingredient}";
+    const url = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${ingredient}`; // Corrigido para crase
     try {
         const response = await fetch(url);
         const data = await response.json();
-        displayDrinks(data.drinks);
+        if (data.drinks) {
+            displayDrinks(data.drinks);
+        } else {
+            console.warn('Nenhum drink encontrado para o ingrediente selecionado.');
+        }
     } catch (error) {
         console.error('Erro ao buscar os drinks:', error);
     }
@@ -38,7 +42,7 @@ async function fetchRandomDrinks() {
     try {
         const response = await fetch(url);
         const data = await response.json();
-         const exampleDrinks = data.drinks.slice(0, 10);
+        const exampleDrinks = data.drinks.slice(0, 10);
         displayDrinks(exampleDrinks);
     } catch (error) {
         console.error('Erro ao buscar os drinks de exemplo:', error);
@@ -65,9 +69,10 @@ function displayDrinks(drinks) {
         container.appendChild(drinkCard);
     });
 }
+
 // Função para buscar detalhes do drink ao clicar
 async function fetchDrinkDetails(drinkId) {
-    const url = "https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${drinkId}";
+    const url = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${drinkId}`; // Corrigido para crase
     try {
         const response = await fetch(url);
         const data = await response.json();
@@ -102,7 +107,7 @@ function showDrinkModal(drink) {
         modal.style.display = 'none';
         modalContent.innerHTML = ''; // Limpa o conteúdo ao fechar
     };
- window.onclick = function (event) {
+    window.onclick = function (event) {
         if (event.target === modal) {
             modal.style.display = 'none';
             modalContent.innerHTML = ''; // Limpa o conteúdo ao fechar
@@ -122,10 +127,10 @@ function showDrinkModal(drink) {
 function getIngredients(drink) {
     let ingredients = '';
     for (let i = 1; i <= 15; i++) {
-        const ingredient = drink[strIngredient${i}];
-        const measure = drink[strMeasure${i}];
+        const ingredient = drink[`strIngredient${i}`]; // Corrigido para colchetes
+        const measure = drink[`strMeasure${i}`]; // Corrigido para colchetes
         if (ingredient) {
-            ingredients += <li>${measure ? measure : ''} ${ingredient}</li>;
+            ingredients += `<li>${measure ? measure : ''} ${ingredient}</li>`; // Corrigido para crase
         }
     }
     return ingredients;
@@ -138,6 +143,7 @@ document.getElementById('filter-button').addEventListener('click', () => {
         fetchDrinksByIngredient(selectedIngredient);
     }
 });
+
 // Função para salvar um drink nos favoritos
 function toggleFavorite(drink) {
     let favorites = getFavorites(); // Recupera os favoritos existentes
